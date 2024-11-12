@@ -1,0 +1,77 @@
+@import './root';
+@import './font/DINPro-Medium.css';
+// @import './font/DINPro-Black.css';
+// @import './font/DINPro-Regular.css';
+
+// .test {
+//   // 可以通过 @apply 多个样式封装整体样式
+//   @apply mt-4 ml-4;
+
+//   padding-top: 4px;
+//   color: red;
+// }
+/* #ifdef MP-WEIXIN */
+@import './weixin';
+/* #endif */
+/* #ifdef H5 */
+@import './h5';
+/* #endif */
+
+page,
+:root {
+  // 修改按主题色
+  // --wot-color-theme: #37c2bc;
+
+  // 图标
+  .wd-icon {
+    line-height: 1;
+  }
+
+  //输入框
+  .wd-input {
+    @include flex();
+    // &:after {
+    //   display: none;
+    // }
+    // .wd-input__label {
+    // }
+    .wd-input__body {
+      .wd-input__value {
+        height: 100%;
+        padding: 0 24rpx;
+        .wd-input__prefix,
+        .wd-input__suffix {
+          @include flex(row, flex-start, center);
+          .wd-icon {
+            background-color: transparent !important;
+          }
+        }
+      }
+    }
+  }
+  // toast提示的图标
+  .wd-toast__icon {
+    width: 48rpx !important;
+    height: 48rpx !important;
+    margin-right: 10rpx !important;
+    .wd-toast__iconSvg {
+      width: 48rpx !important;
+      height: 48rpx !important;
+    }
+  }
+
+  // 弹出层-底部弹出
+  .wd-popup--bottom {
+    border-radius: 16rpx 16rpx 0rpx 0rpx;
+  }
+  // 弹出层-居中弹出
+  .wd-popup--center {
+    border-radius: 24rpx;
+  }
+  // 按钮
+  uni-button {
+    &:after {
+      border: none;
+    }
+  }
+}

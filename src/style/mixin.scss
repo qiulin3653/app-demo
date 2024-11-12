@@ -1,0 +1,188 @@
+//处理手机安全区
+// $name:动态的class类名;
+// $value:固定值;
+@mixin safe($name, $value: '') {
+  @if $value == '' {
+    #{$name}: constant(safe-area-inset-bottom);
+    #{$name}: env(safe-area-inset-bottom);
+  } @else {
+    #{$name}: calc(constant(safe-area-inset-bottom) + #{$value});
+    #{$name}: calc(env(safe-area-inset-bottom) + #{$value});
+  }
+}
+//清除选中
+@mixin userSelect() {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+//清除浮动
+@mixin clear() {
+  display: table;
+  clear: both;
+  content: '';
+}
+@mixin cl() {
+  &:after {
+    @include clear();
+  }
+}
+//动画
+@mixin transition($a: 0.3s, $b: ease-in-out, $c: 0s, $d: all) {
+  -moz-transition: $d $a $b $c;
+  -webkit-transition: $d $a $b $c;
+  -o-transition: $d $a $b $c;
+  transition: $d $a $b $c;
+}
+//动画-放大
+@mixin fd($a) {
+  -ms-transform: scale($a, $a);
+  -webkit-transform: scale($a, $a);
+  transform: scale($a, $a);
+}
+//动画-旋转
+@mixin xz($a: 180) {
+  -ms-transform: rotate($a + deg);
+  -webkit-transform: rotate($a + deg);
+  transform: rotate($a + deg);
+}
+//动画-旋转
+@mixin xyz($a: 180) {
+  -ms-transform: rotateY($a + deg);
+  -webkit-transform: rotateY($a + deg);
+  transform: rotateY($a + deg);
+}
+//动画-位移
+@mixin wy($a: 0, $b: 0) {
+  -ms-transform: translate($a, $b);
+  -webkit-transform: translate($a, $b);
+  transform: translate($a, $b);
+}
+//动画-倾斜
+@mixin qx($a: 0, $b: 0) {
+  -ms-transform: skew($a + deg, $b + deg);
+  -webkit-transform: skew($a + deg, $b + deg);
+  transform: skew($a + deg, $b + deg);
+}
+//透明
+@mixin tm($tm, $bj: '') {
+  @if $bj != '' {
+    background-color: $bj;
+  }
+  filter: alpha(opacity=$tm * 100); //支持 IE 浏览器
+  -moz-opacity: $tm; //支持 FireFox 浏览器
+  opacity: $tm; //支持 Chrome, Opera, Safari 等浏览器
+}
+
+// 画三角形@mixin声明
+@mixin sj($fx: top, $size: 100px, $color: red) {
+  @if ($fx == top) {
+    border-color: transparent transparent $color transparent;
+    border-style: dashed dashed solid dashed;
+  } @else if($fx == right) {
+    border-color: transparent transparent transparent $color;
+    border-style: dashed dashed dashed solid;
+  } @else if($fx == bottom) {
+    border-color: $color transparent transparent transparent;
+    border-style: solid dashed dashed dashed;
+  } @else if($fx == left) {
+    border-color: transparent $color transparent transparent;
+    border-style: dashed solid dashed dashed;
+  }
+
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+  border-width: $size;
+}
+//弹性盒子
+// @a----flex-direction: row | row-reverse | column | column-reverse
+// @b----justify-content: flex-start | flex-end | center | space-between | space-around
+// @c----align-items: flex-start | flex-end | center | baseline | stretch
+// @d----flex-wrap: nowrap|wrap|wrap-reverse|initial|inherit;
+
+// flex-shrink:0;//解决子元素宽度不生效问题
+@mixin flex($a: '', $b: '', $c: '', $d: '') {
+  display: flex;
+  @if $a != '' {
+    flex-direction: $a;
+  }
+  @if $b != '' {
+    justify-content: $b;
+  }
+  @if $c != '' {
+    align-items: $c;
+  }
+  @if $d != '' {
+    flex-wrap: $d;
+  }
+}
+
+@mixin flex2($a: row, $b: center, $c: flex-start, $d: nowrap) {
+  // eslint-disable
+  // display: box; // OLD - Android 4.4-
+  display: -webkit-box; // OLD - iOS 6-, Safari 3.1-6
+  display: -moz-box; // OLD - Firefox 19- (buggy but mostly works)
+  // eslint-disable
+  display: -ms-flexbox; // TWEENER - IE 10
+  display: -webkit-flex; // NEW - Chrome
+  display: flex; // NEW, Spec - Opera 12.1, Firefox 20+
+  display: -webkit-flex;
+  display: flex;
+  -moz-flex-direction: $a;
+  -ms-flex-direction: $a;
+  // 12版
+  -webkit-flex-direction: $a;
+  -o-flex-direction: $a;
+  flex-direction: $a;
+  -webkit-flex-wrap: $d;
+  -ms-flex-wrap: $d;
+  // 12版
+  -moz-flex-wrap: $d;
+  -o-flex-wrap: $d;
+  flex-wrap: $d;
+  -moz-align-items: $c;
+  -ms-align-items: $c;
+  // 12版
+  -webkit-align-items: $c;
+  -o-align-items: $c;
+  align-items: $c;
+  -webkit-justify-content: $b;
+  -moz-justify-content: $b;
+  -ms-justify-content: $b;
+  -o-justify-content: $b;
+  // 12版
+  justify-content: $b;
+  // 09版
+  -webkit-box-pack: $b;
+  // 09版
+  -webkit-box-align: $c;
+  // 09版
+  -webkit-box-lines: multiple;
+  // 09版
+  @if $a == row {
+    -webkit-box-orient: horizontal;
+  } @else {
+    -webkit-box-orient: vertical;
+  }
+}
+//两行溢出变省略号
+@mixin ellipsis2($a: 2) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $a;
+  -webkit-box-orient: vertical;
+}
+@mixin ellipsis1() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+//文字两端对齐
+@mixin justify() {
+  text-align: justify;
+  text-align-last: justify; // ie9
+  text-justify: distribute-all-lines; //ie6-8
+}
